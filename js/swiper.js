@@ -10,8 +10,10 @@
             n: 0,
             timer: null,
             swp: $('.swiper'),
+            swpW: $(window).width(),            
             swpList: $('.swiper-list'),
             swpNode: $('.swiper-list-node'),
+            arrow: $('.swiper-btn'),
             prev: $('.swiper-btn-prev'),
             next: $('.swiper-btn-next'),
             btn: $('.swiper-index-child'),
@@ -53,11 +55,14 @@
             }
         },
         layout: function (opt) {
+            opt.swp.width(opt.swpW);
             opt.swp.height(opt.height);
             opt.swpNode.width(opt.nodeW);
+            opt.arrow.css('lineHeight', opt.height+'px');
             opt.swpList.width(opt.nodeW * opt.len);
         },
         PcStart: function (opt) {
+            var self = this;
             opt.btn.on('click', function () {
                 var _this = $(this);
                 var index = _this.index();
@@ -72,15 +77,36 @@
                     });
                 }
             });
+
+            opt.prev.on('click', function () {
+                opt.n++
+                if (opt.n > opt.len - 1) opt.n = 0;
+                self.move(opt);
+            });
+
+            opt.next.on('click', function () {
+                opt.n--;
+                if (opt.n < 0) opt.n = opt.len-1;
+                self.move(opt);
+            });
+
             function autoPlay () {
-                opt.n = opt.n > opt.btn.length ? 0 : ++opt.n;
-                 opt.btn.eq(opt.n).trigger('click');
+                opt.n++
+                if (opt.n > opt.len - 1) opt.n = 0;
+                opt.btn.eq(opt.n).trigger('click');
             }
             opt.timer = setInterval(autoPlay, 3000);
             opt.swp.hover(function () {
                 clearInterval(opt.timer);
             }, function () {
                 opt.timer = setInterval(autoPlay, 3000);
+            });
+        },
+        move: function (opt) {
+            opt.btn.removeClass('swiper-active');
+            opt.btn.eq(opt.n).addClass('swiper-active');
+            opt.swpList.animate({
+                left: -parseInt(opt.swpNode.width()) * opt.n
             });
         }
     }

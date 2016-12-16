@@ -41,9 +41,8 @@
     z-index: 1;
     width: 100px;
     height: 100%;
-    line-height: calc(100vh - 20px);
     text-align: center;
-    background: #f00;
+    background: rgba(0,0,0,.1);
     font-size: 54px;
     font-weight: bold;
     color: #555 ;
@@ -70,9 +69,9 @@
 }
 
 .swiper-index-child{
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(0,0,0,.3);
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(0,0,0,.3);
     border-radius: 50%;
     display: inline-block;
     margin: 0 5px;
@@ -86,9 +85,9 @@
 }
 
 .swiper-active{
-    background: #0F33B5;
+    background: #fad;
 }
 
 .swiper-active:hover {
-    background: #0F33B5;
+    background: #fad;
 }
