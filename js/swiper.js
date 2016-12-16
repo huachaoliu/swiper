@@ -80,7 +80,6 @@
                     });
                 }
             });
-
             opt.prev.on('click', function () {
                 opt.n++
                 if (opt.n > opt.len - 1) opt.n = 0;
