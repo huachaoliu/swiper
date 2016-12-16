@@ -6,10 +6,13 @@
     }
 })(function ($) {
     var Swiper = function (options) {
+        //plugins style
+        var stype = ['slider', 'gradient'];
         var defaults = {
             n: 0,
             timer: null,
             speed: 3000,
+            style: stype,
             swp: $('.swiper'),
             swpW: $(window).width(),            
             swpList: $('.swiper-list'),
@@ -81,7 +84,7 @@
                 }
             });
             opt.prev.on('click', function () {
-                opt.n++
+                opt.n++;
                 if (opt.n > opt.len - 1) opt.n = 0;
                 self.move(opt);
             });
