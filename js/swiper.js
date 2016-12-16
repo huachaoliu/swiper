@@ -9,6 +9,7 @@
         var defaults = {
             n: 0,
             timer: null,
+            speed: 3000,
             swp: $('.swiper'),
             swpW: $(window).width(),            
             swpList: $('.swiper-list'),
@@ -30,8 +31,10 @@
             this.layout(opt);
             switch(ua) {
                 case 'ios':
+                    this.mobileStart(opt);
                     break;
                 case 'android':
+                     this.mobileStart(opt);
                     break;
                 case 'pc':
                      this.PcStart(opt);
@@ -91,16 +94,59 @@
             });
 
             function autoPlay () {
-                opt.n++
+                opt.n++;
                 if (opt.n > opt.len - 1) opt.n = 0;
                 opt.btn.eq(opt.n).trigger('click');
             }
-            opt.timer = setInterval(autoPlay, 3000);
+            opt.timer = setInterval(autoPlay, opt.speed);
             opt.swp.hover(function () {
                 clearInterval(opt.timer);
             }, function () {
-                opt.timer = setInterval(autoPlay, 3000);
+                opt.timer = setInterval(autoPlay, opt.speed);
             });
+        },
+        mobileStart: function (opt) {
+            var self = this;
+            opt.arrow.css('display', 'none');
+            var startX;
+            var touchX;
+            opt.swp.on('touchstart', function (e) {
+                clearInterval(opt.timer);
+                e.preventDefault();
+                startX = e.originalEvent.changedTouches[0].pageX;
+                return false;
+            });
+            opt.swp.on('touchmove', function (e) {
+                e.preventDefault();
+                touchX = e.originalEvent.changedTouches[0].pageX;
+            });
+            opt.swp.on('touchend', function (e) {
+                e.preventDefault();
+                if (touchX - startX > 0) {
+                     opt.n++;
+                    if (opt.n > opt.len - 1) {
+                        opt.n = 0;
+                        self.move(opt);
+                    } else {
+                        return false;
+                    }
+                } else {
+                    opt.n--;
+                    if (opt.n < 0) {
+                        opt.n = opt.len-1;
+                        self.move(opt);
+                    } else {
+                        return false;
+                    }
+                }
+                opt.timer = setInterval(autoPlay, opt.speed);
+            });
+            function autoPlay () {
+                opt.n++
+                if (opt.n > opt.len - 1) opt.n = 0;
+                self.move(opt);
+            }
+            opt.timer = setInterval(autoPlay, opt.speed);
         },
         move: function (opt) {
             opt.btn.removeClass('swiper-active');
