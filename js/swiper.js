@@ -6,8 +6,6 @@
     }
 })(function ($) {
     var Swiper = function (options) {
-        //plugins style
-        var stype = ['slider', 'gradient'];
         var defaults = {
             n: 0,
             timer: null,
